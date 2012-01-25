@@ -1,0 +1,7 @@
+Goals
+
+  The plugin supports the following goals:
+  
+  *   {{{./compile-mojo.html}cpp-compiler:compile}} compiles for each of the configured targets, then links any configured executables.
+  
+  *   {{{./testCompile-mojo.html}cpp-compiler:test-compile}} compiles any test code for the host environment, if it is among the configured target environments. It then links the compiled test objects together with the production code objects for the corresponding target into test executables as configured.

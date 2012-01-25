@@ -1,0 +1,5 @@
+Goals
+
+  The plugin supports the following goals:
+  
+  *   {{{./car-mojo.html}car:car}} creates a C/C++ archive (car) from the configured output directory.

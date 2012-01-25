@@ -1,0 +1,5 @@
+Goals
+
+  The plugin supports the following goals:
+  
+  *   {{{./test-mojo.html}cpp-tester:test}} sequentially executes all binaries in the test output directory.

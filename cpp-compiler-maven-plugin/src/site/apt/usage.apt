@@ -1,0 +1,26 @@
+Usage
+
+* Bundles
+  
+  The easiest way to use a Bundle is to specify it as a dependency to the compiler plugin itself. An example:  
+  
++---------------------------------------------------
+<plugin>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>cpp-compiler-maven-plugin</artifactId>
+  <version>1.0.0</version>
+  <extensions>true</extensions>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>cpp-linux-compiler</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.mycompany</groupId>
+      <artifactId>cpp-windows-compiler</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</plugin>
++----------------------------------------------------

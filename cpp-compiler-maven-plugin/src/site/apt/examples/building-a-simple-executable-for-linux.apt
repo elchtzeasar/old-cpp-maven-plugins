@@ -1,0 +1,83 @@
+Building a simple executable for Linux
+
+  This example illustrates how to build a Hello World applicatin for a Linux target.
+  
+* Project structure
+
+  The default C/C++ project structure follows the standard Maven layout. Instead of using e.g. <<src/main/java>>, the plugin expects to find one <<cpp>> directory and one <<include>> directory, like so:  
+
++---------------------------------------------------
++- src/
+  +- main/
+  | +- cpp/
+  | +- include/
+  +- test/
+    +- cpp/
+    +- include/
++----------------------------------------------------
+
+  Both <<cpp>> and <<include>> may contain any depth of subdirectories (only the <<include>> directory root will be present as a -I directive at compilation however, so any subdirectory structure shall therefore be part of the #include directive). Placing our HelloWorld.cc in the <<cpp>> directory means it will be picked up and compiled by the plugin.
+
+* Plugin configuration
+  
+  In the POM we'll start by setting the packaging type to <<car>>. We then configure the plugin:
+  
++---------------------------------------------------
+<build>
+  <plugins>
+    <plugin>
+      <artifactId>cpp-compiler-maven-plugin</artifactId>
+      <groupId>org.codehaus.mojo</groupId>
+      <version>1.0.0</version>
+      <configuration>
+        <targetEnvironments>linux_32,linux_64</targetEnvironments>
+        <executables>
+          <all>hello=src/main/cpp/*</all>
+        </executables>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>  
++---------------------------------------------------
+
+  There are two things to note here:
+  The <<targetEnvironments>> parameter is a comma separated list of targets to build for. In this case we'll build for 32-bit and 64-bit Linux.
+  The <<executables>> parameter is a map of executables per platform. In this case we use <<all>> to tell the plugin to link <<src/main/cpp/*>> into an executable named <<hello>> for each target. We could use e.g. <<linux_64>> instead of <<all>> to only link the executable for that target.  
+
+* Bundle configuration
+
+  All target specific compilation and linking logic resides in Bundles. In order to build for any target environment the appropriate Bundle needs to be declared. In this case we'll use the <<cpp-linux-compiler>> Bundle. To make it available to the plugin we add it as a plugin dependency:  
+
++---------------------------------------------------
+<plugin>
+  <artifactId>cpp-compiler-maven-plugin</artifactId>
+  ...
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>cpp-linux-compiler</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+  </dependencies>
+</plugin>
++----------------------------------------------------
+
+* Dependencies configuration
+
+  Dependencies work like any other Maven dependency, except you need to specify the <<type>>:
+
++---------------------------------------------------
+<dependencies>
+  <dependency>
+    <groupId>com.mycompany.mygroup</groupId>
+    <artifactId>mydependency</artifactId>
+    <version>1.2.3</version>
+    <type>car</type>
+  </dependency>
+</dependencies>
++---------------------------------------------------
+
+* Executing Maven
+
+  You're now ready to build your application! Both compilation and linking of production code (located in <<main>>) is done in the <<compile>> goal, which is bound to the <<compile>> phase in the default <<car>> lifecycle.
+  In other words, running <<mvn compile>> will get you your executables.    
