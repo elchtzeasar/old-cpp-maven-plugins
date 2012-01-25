@@ -1,5 +1,12 @@
+== Installing
+Install it:
+    mvn install
+
+Generate documentation:
+    mvn site
+
+== Origin
 This project was snatched from the plugin submission to Mojo created by Daniel Franzén at Ericsson. You can find the original submission at: http://jira.codehaus.org/browse/MOJO-1705.
 
 The project will be developed here while waiting for Mojo to react to the submission. If it is accepted the changes made here will probably be submitted.
 
-To install it, clone the repository and run 'mvn install' in the root. Documentation can be generated through 'mvn site'.
