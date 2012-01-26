@@ -19,7 +19,7 @@ package org.codehaus.mojo.cpp.compiler.files;
 import java.io.File;
 
 public class NativeCodeFile {
-	public static final String[] SOURCE_SUFFIXES = { ".cc", ".c" };
+	public static final String[] SOURCE_SUFFIXES = { ".cpp", "*.c++", "*.cxx", ".cc", ".c" };
 	public static final String OBJECT_SUFFIX = ".o";
 	public static final String DEPEND_SUFFIX = ".d";
 
