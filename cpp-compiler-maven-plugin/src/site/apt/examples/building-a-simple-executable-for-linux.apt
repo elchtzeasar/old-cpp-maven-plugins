@@ -29,6 +29,7 @@ Building a simple executable for Linux
       <artifactId>cpp-compiler-maven-plugin</artifactId>
       <groupId>org.codehaus.mojo</groupId>
       <version>1.0.0</version>
+      <extensions>true</extensions>
       <configuration>
         <targetEnvironments>linux_32,linux_64</targetEnvironments>
         <executables>
