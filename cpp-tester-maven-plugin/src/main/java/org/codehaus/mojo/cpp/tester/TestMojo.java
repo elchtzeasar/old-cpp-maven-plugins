@@ -100,6 +100,17 @@ public class TestMojo extends AbstractMojo
 	 * @since 0.1.2
 	 */
 	private boolean runValgrind;
+
+	/**
+	 * Whether to try to execute tests without valgrind or not.<br />
+	 * Can be set via the run.tests system property. 
+	 *
+	 * @parameter
+	 * 		expression="${run.tests}"
+	 * 		default-value="true"
+	 * @since 1.0.0
+	 */
+	private boolean runTests;
 	
 	/**
 	 * The host environment name. If defined, it will be used to determine the current host environment.<br />
@@ -128,8 +139,9 @@ public class TestMojo extends AbstractMojo
 		
 		final List<File> testBinaries = findTestBinaries(hostEnvironment, settings);
 
-		for(File testBinary : testBinaries)
-			testResults.put(testBinary, executor.execute(testBinary));
+		if ( runTests )
+			for(File testBinary : testBinaries)
+				testResults.put(testBinary, executor.execute(testBinary));
 
 		final long doneTime = Calendar.getInstance().getTimeInMillis();
 		report(testResults, doneTime - startTime);
@@ -147,6 +159,11 @@ public class TestMojo extends AbstractMojo
 	}
 
 	private void report(final Map<File, Integer> testResults, final long timeSpent) throws MojoFailureException {
+		if ( !runTests ) {
+			getLog().info("Tests are turned off, and therefore not run.");
+			return;
+		}
+
 		if( testResults.isEmpty() ) {
 			getLog().info("No test binaries found.");
 			return;
