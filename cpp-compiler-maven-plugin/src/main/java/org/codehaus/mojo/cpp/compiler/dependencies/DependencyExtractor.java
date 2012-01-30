@@ -119,23 +119,25 @@ public class DependencyExtractor {
 	}
 
 	private void deleteDestinationIfInvalid(final Artifact artifact, final File destination) throws MojoExecutionException {
-		final File versionFile = new File(destination, VERSION_FILENAME);
-
 		try {
 			if(isUpdatedSnapshot(artifact, destination)) {
 				log.info(destination + " will be cleaned. There is a newer SNAPSHOT version in local repository.");
-				destination.delete();
+				FileUtils.deleteDirectory(destination);
+				return;
 			}
 
+			final File versionFile = new File(destination, VERSION_FILENAME);
 			if( !versionFile.exists() ) {
 				log.warn(destination + " will be cleaned. It contains no version file, which might indicate a previous failed extraction attempt.");
-				destination.delete();
+				FileUtils.deleteDirectory(destination);
+				return;
 			}
 
 			final String previouslyExtractedVersion = FileUtils.fileRead(versionFile);
 			if(!previouslyExtractedVersion.equals(artifact.getVersion())) {
 				log.warn(destination + " will be cleaned. It contains version " + previouslyExtractedVersion + ", but the current dependency is to " + artifact.getVersion() + ".");
-				destination.delete();
+				FileUtils.deleteDirectory(destination);
+				return;
 			}
 		} 
 		catch (IOException e) {
