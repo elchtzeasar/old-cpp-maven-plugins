@@ -96,15 +96,17 @@ public abstract class AbstractExecutableBuilder extends AbstractArtifactBuilder 
 	}
 
 	private Collection<File> findLibsToLinkForScope(final String scope) {
-		final String pattern =  "lib/*.a";
+		final String staticPattern =  "lib/*.a";
+		final String dynamicPattern =  "lib/*.so";
 		final Collection<File> libs = new ArrayList<File>();
 		
 		final Collection<File> dependencyDirectories = settings.getDependencyDirectories(scope, getTargetEnvironment());
 		for (final File dependency : dependencyDirectories) {
-			libs.addAll(new FileFinder(dependency, pattern).getFiles());
+			libs.addAll(new FileFinder(dependency, staticPattern).getFiles());
+			libs.addAll(new FileFinder(dependency, dynamicPattern).getFiles());
 		}
 
-		log.debug(getTargetEnvironment() + ": " + libs.size() + " libs matching pattern \"" + pattern + "\" found for scope " + scope + " in " + dependencyDirectories.size() + " dependency directories.");
+		log.debug(getTargetEnvironment() + ": " + libs.size() + " libs matching static pattern \"" + staticPattern + "\", and dynamic pattern \"" + dynamicPattern + "\" found for scope " + scope + " in " + dependencyDirectories.size() + " dependency directories.");
 		libs.addAll(new FileFinder(settings.getLibDirectory(getTargetEnvironment(), scope.equals("test")), "*.a").getFiles());
 
 		return libs;
