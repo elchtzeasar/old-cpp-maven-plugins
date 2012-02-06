@@ -63,6 +63,8 @@ public abstract class AbstractGccCompiler extends AbstractCompiler {
 		final CliExecutor executor = getExecutor(batch.getDirectory(), getCompilerExecutable());
 		executor.getCommandline().createArg().setLine(getMandatoryCompilerArguments());
 		executor.getCommandline().createArg().setLine(settings.getCompilerArguments(getTargetEnvironment()));
+		executor.getCommandline().createArg().setValue("-I" + settings.getCodeDirectory(null, settings.isTestCompilation()));
+		executor.getCommandline().createArg().setValue("-I" + settings.getCodeDirectory(getTargetEnvironment(), settings.isTestCompilation()));
 		executor.getCommandline().createArg().setValue("-I" + settings.getIncludeDirectory(null, settings.isTestCompilation()));
 		executor.getCommandline().createArg().setValue("-I" + settings.getIncludeDirectory(getTargetEnvironment(), settings.isTestCompilation()));
 		for(File includeDirectory : getExtractedDependencyIncludeDirectories("compile"))
