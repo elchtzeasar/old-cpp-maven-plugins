@@ -47,7 +47,6 @@ public class TargetManager {
 	private Collection<NativeCodeFile> allClasses;
 	private Collection<AbstractArtifactBuilder> artifactBuilders;
 	private CompilationOverseer compilationOverseer;
-	private boolean libsNeedToBeExtracted = false;
 	private final DependencyExtractor dependencyExtractor;
 	private final BundleProviderManager bundles;
 	private final Environment hostEnvironment;
@@ -74,8 +73,7 @@ public class TargetManager {
 	public void buildArtifacts(final ExecutablesMap executables, final Collection<Artifact> dependencies) throws MojoExecutionException, MojoFailureException {
 		final Collection<AbstractArtifactBuilder> artifactBuilders = getArtifactBuilders(executables);
 		
-		if( libsNeedToBeExtracted )
-			dependencyExtractor.secureAvailabilityOfExtractedDependencies(DependencyType.LIBS, getTargetEnvironment());
+		dependencyExtractor.secureAvailabilityOfExtractedDependencies(DependencyType.LIBS, getTargetEnvironment());
 		
 		for(AbstractArtifactBuilder builder : artifactBuilders)
 			builder.build(getAllClasses(), compiledClasses, dependencies);
@@ -107,7 +105,6 @@ public class TargetManager {
 
 		for(Executable executable : executables.getAllExecutables(targetEnvironment)) {
 			builders.add(createExecutableBuilder(executable));
-			libsNeedToBeExtracted = true;
 		}
 		
 		return builders;
