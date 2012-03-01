@@ -100,9 +100,7 @@ public class TestCompileMojo extends AbstractCompileMojo {
 	protected ExecutablesMap createExecutablesMap(final Collection<NativeCodeFile> compiledClasses, final Environment targetEnvironment, final PluginSettingsImpl settings) throws MojoFailureException {
 		final ExecutablesMap map = new ExecutablesMap(getLog(), compiledClasses, settings);
 
-		if( testExecutables == null )
-			map.addExecutable("all", "[]", "src/test/cpp/*" + NativeCodeFile.SOURCE_SUFFIXES[0]);
-		else
+		if( testExecutables != null )
 			map.parseExecutableMapping(testExecutables, targetEnvironment);
 
 		return map;
