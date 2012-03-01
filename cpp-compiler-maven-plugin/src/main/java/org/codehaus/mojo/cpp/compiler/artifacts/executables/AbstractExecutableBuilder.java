@@ -108,6 +108,7 @@ public abstract class AbstractExecutableBuilder extends AbstractArtifactBuilder 
 
 		log.debug(getTargetEnvironment() + ": " + libs.size() + " libs matching static pattern \"" + staticPattern + "\", and dynamic pattern \"" + dynamicPattern + "\" found for scope " + scope + " in " + dependencyDirectories.size() + " dependency directories.");
 		libs.addAll(new FileFinder(settings.getLibDirectory(getTargetEnvironment(), scope.equals("test")), "*.a").getFiles());
+		libs.addAll(new FileFinder(settings.getLibDirectory(getTargetEnvironment(), scope.equals("test")), "*.so").getFiles());
 
 		return libs;
 	}
